@@ -181,7 +181,7 @@ st.subheader("Mapa comparativo de NOM (017 / 018 / 027)")
 
 if st.button("📌 Generar mapa comparativo"):
     if MATRIX_PATH.exists():
-        df_map = pd.read_csv(MATRIX_PATH)
+              df_map = pd.read_csv(MATRIX_PATH, engine="python", sep=",", on_bad_lines="skip")
 
         # Ajuste visual: hacer la tabla más legible
         st.caption("Tabla comparativa (extraída y resumida de las NOM).")
