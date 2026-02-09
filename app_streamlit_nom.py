@@ -174,20 +174,18 @@ with st.sidebar:
 # ----------------------------
 # Mapa comparativo (tabla)
 # ----------------------------
-MATRIX_PATH = Path(__file__).with_name("matriz_comparativa_nom.tsv")
+MATRIX_PATH = Path(__file__).with_name("matriz_comparativa_nom.csv")
 
 st.divider()
 st.subheader("Mapa comparativo de NOM (017 / 018 / 027)")
 
 if st.button("📌 Generar mapa comparativo"):
     if MATRIX_PATH.exists():
-              df_map = pd.read_csv(MATRIX_PATH, engine="python", sep=",", on_bad_lines="skip")
+        df_map = pd.read_csv(MATRIX_PATH, engine="python", sep=",", on_bad_lines="skip")
 
-        # Ajuste visual: hacer la tabla más legible
         st.caption("Tabla comparativa (extraída y resumida de las NOM).")
         st.dataframe(df_map, use_container_width=True)
 
-        # Opción: descargar CSV desde la app
         csv_bytes = df_map.to_csv(index=False).encode("utf-8")
         st.download_button(
             label="⬇️ Descargar mapa comparativo (CSV)",
@@ -196,10 +194,7 @@ if st.button("📌 Generar mapa comparativo"):
             mime="text/csv",
         )
     else:
-        st.error(
-            "No se encontró 'matriz_comparativa_nom.csv' en la misma carpeta que la app. "
-            "Súbelo a tu repositorio junto con app_streamlit_nom.py."
-        )
+        st.error("No se encontró 'matriz_comparativa_nom.csv' en el repo. Súbelo junto con la app.")
 
 
 
