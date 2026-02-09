@@ -30,7 +30,7 @@ NOMS = {
 INTENT_RULES = {
     "comparativa": ["compar", "diferencia", "vs", "versus", "entre", "cuál aplica", "cual aplica", "cuál nom", "cual nom", "relación", "relacion"],
     "implementacion": ["implementar", "implementación", "pasos", "ruta", "cómo cumplo", "como cumplo", "plan", "secuencial", "simultánea", "simultanea"],
-    "conflictos": ["conflicto", "duplicidad", "duplicado", "se repite", "contradic", "incompatible"]
+    "conflictos": ["conflicto", "duplicidad", "duplicado", "duplicar", "se repite", "repetir", "no repetir", "sin repetir", "sin duplicar", "contradic", "incompatible"]
 }
 
 TOPIC_HINTS = {
