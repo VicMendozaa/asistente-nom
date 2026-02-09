@@ -1,4 +1,4 @@
-
+import pandas as pd
 import json, re
 from pathlib import Path
 
@@ -171,6 +171,37 @@ with st.sidebar:
     st.divider()
     topk = st.slider("Fragmentos a recuperar (top-k)", 3, 10, 5)
     st.write("Tip: si preguntas de forma comparativa, usa 'diferencias' o 'cuál aplica'.")
+# ----------------------------
+# Mapa comparativo (tabla)
+# ----------------------------
+MATRIX_PATH = Path(__file__).with_name("matriz_comparativa_nom.csv")
+
+st.divider()
+st.subheader("Mapa comparativo de NOM (017 / 018 / 027)")
+
+if st.button("📌 Generar mapa comparativo"):
+    if MATRIX_PATH.exists():
+        df_map = pd.read_csv(MATRIX_PATH)
+
+        # Ajuste visual: hacer la tabla más legible
+        st.caption("Tabla comparativa (extraída y resumida de las NOM).")
+        st.dataframe(df_map, use_container_width=True)
+
+        # Opción: descargar CSV desde la app
+        csv_bytes = df_map.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="⬇️ Descargar mapa comparativo (CSV)",
+            data=csv_bytes,
+            file_name="mapa_comparativo_nom.csv",
+            mime="text/csv",
+        )
+    else:
+        st.error(
+            "No se encontró 'matriz_comparativa_nom.csv' en la misma carpeta que la app. "
+            "Súbelo a tu repositorio junto con app_streamlit_nom.py."
+        )
+
+
 
 query = st.text_area("Escribe tu consulta (puede ser comparativa):", height=120, placeholder="Ej. Para soldadura con gas y uso de solventes, ¿qué aplica de la NOM-027, NOM-018 y NOM-017 y en qué orden lo implemento?")
 
