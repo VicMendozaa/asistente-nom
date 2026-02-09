@@ -174,7 +174,7 @@ with st.sidebar:
 # ----------------------------
 # Mapa comparativo (tabla)
 # ----------------------------
-MATRIX_PATH = Path(__file__).with_name("matriz_comparativa_nom.csv")
+MATRIX_PATH = Path(__file__).with_name("matriz_comparativa_nom.tsv")
 
 st.divider()
 st.subheader("Mapa comparativo de NOM (017 / 018 / 027)")
