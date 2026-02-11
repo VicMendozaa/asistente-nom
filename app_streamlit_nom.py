@@ -106,10 +106,57 @@ def build_integrated_route(noms_detected):
         steps.append("3) **NOM-017**: Con base en los riesgos (incluyendo químicos y del proceso), selecciona **EPP** adecuado, capacita en uso/limitaciones y establece mantenimiento/rehabilitación, entrega y registros.")
     steps.append("4) Integra evidencia: unifica capacitación, listas de verificación y registros para evitar duplicidades (un solo expediente que cubra 017+018+027).")
     return "\n".join(steps)
-
 def answer(query, intents, noms_detected, evidence):
     # Response template that always ties norms together when relevant.
+    lines = []
+    lines.append("### Respuesta integrada")
+    lines.append(f"**Intención detectada:** {', '.join(intents)}")
+    lines.append(f"**Norma(s) detectada(s):** {', '.join(noms_detected)}")
+    lines.append("")
+
+    # If user asks for implementation route
+    if "implementacion" in intents:
+        lines.append("#### Ruta sugerida de implementación integrada")
+        lines.append(build_integrated_route(noms_detected))
         lines.append("")
+
+    # If comparative
+    if "comparativa" in intents:
+        lines.append("#### Comparación rápida (qué aporta cada NOM)")
+        for nom in noms_detected:
+            lines.append(f"- **{nom}**: {NOMS[nom]['tema']}")
+        lines.append("")
+        lines.append("#### Recomendación")
+        lines.append(
+            "Si tu proceso es **soldadura/corte** y hay **sustancias químicas** (gases, solventes, humos), "
+            "normalmente se aplican **NOM-027 (proceso)** + **NOM-018 (comunicación de peligros)** + **NOM-017 (EPP)** "
+            "de forma complementaria."
+        )
+        lines.append("")
+
+    if "conflictos" in intents:
+        lines.append("#### Posibles duplicidades/conflictos típicos")
+        lines.append("- **Capacitación**: aparece en varias NOM → conviene un **plan único** con módulos por tema (SGA, soldadura/corte, EPP) y un solo registro de asistencia.")
+        lines.append("- **Señalización/etiquetado**: NOM-018 exige comunicación de peligros químicos; NOM-027 puede pedir controles del área → evita duplicar formatos: usa etiquetas/HDS como base y complementa con avisos del área de trabajo.")
+        lines.append("- **Evidencias**: centraliza en un expediente por área/proceso (soldadura) con anexos de sustancias (018) y EPP (017).")
+        lines.append("")
+
+    # Use evidence to ground the answer
+    lines.append("#### Evidencia localizada en las NOM")
+    if not evidence:
+        lines.append("No se encontró un fragmento suficientemente cercano con la búsqueda actual. Prueba con palabras más específicas (p. ej., 'obligaciones del patrón', 'HDS', 'careta para soldar').")
+        lines.append("")
+        lines.append("#### Interpretación práctica")
+        lines.append("No se detectó evidencia suficiente para desglosar el caso. Intenta indicar tipo de soldadura, sustancias y área.")
+        return "\n".join(lines)
+
+    for ev in evidence[:4]:
+        preview = re.sub(r"\s+", " ", ev["text"]).strip()
+        if len(preview) > 450:
+            preview = preview[:450] + "..."
+        lines.append(f"- **{ev['nom']} (p. {ev['page']})** — {preview}")
+
+    lines.append("")
     lines.append("#### Interpretación práctica")
 
     parts = []
@@ -125,7 +172,9 @@ def answer(query, intents, noms_detected, evidence):
     lines.append("Si me das tu caso (tipo de soldadura, sustancias y área), lo aterrizo a un checklist integrado.")
     return "\n".join(lines)
 
-        return "\n".join(lines)
+
+
+       
 
     for ev in evidence[:4]:
         preview = re.sub(r"\s+", " ", ev["text"]).strip()
