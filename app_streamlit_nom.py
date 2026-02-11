@@ -176,29 +176,7 @@ def answer(query, intents, noms_detected, evidence):
 
        
 
-    for ev in evidence[:4]:
-        preview = re.sub(r"\s+", " ", ev["text"]).strip()
-        if len(preview) > 450:
-            preview = preview[:450] + "..."
-        lines.append(f"- **{ev['nom']} (p. {ev['page']})** — {preview}")
-
-    lines.append("")
-lines.append("#### Interpretación práctica")
-
-parts = []
-if "NOM-027-STPS-2008" in noms_detected:
-    parts.append("- **Proceso (NOM-027):** controles del área y procedimiento de soldadura/corte (ventilación, orden, control de chispas/flama, cilindros, prevención de incendios).")
-if "NOM-018-STPS-2015" in noms_detected:
-    parts.append("- **Comunicación/SGA (NOM-018):** inventario, etiquetas, pictogramas y **HDS** de solventes/gases; capacitación para interpretarlas.")
-if "NOM-017-STPS-2008" in noms_detected:
-    parts.append("- **EPP (NOM-017):** selección/entrega/capacitación/mantenimiento y registros del EPP según riesgos del proceso y químicos.")
-
-lines.append("\n".join(parts))
-lines.append("")
-lines.append("Si me das tu caso (tipo de soldadura, sustancias y área), lo aterrizo a un checklist integrado.")
-return "\n".join(lines)
-
-
+    
 # ----------------------------
 # UI
 # ----------------------------
